@@ -1,0 +1,17 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    padding-top: 200px;
+}
+
+.boardArea {
+    width: 500px;
+    height: 500px;
+    border: 1px solid black;
+}

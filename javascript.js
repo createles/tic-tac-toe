@@ -1,21 +1,68 @@
-// Initializes a 2D gameboard, 
+// Initializes a 2D board, 
 // where each spot on the board is an empty string ''
-let gameBoard = [
-    ['', '', ''],
-    ['', '', ''],
-    ['', '', ''] 
-];
+const gameBoard = (() => {
+    let board = [
+        ['', '', ''],
+        ['', '', ''],
+        ['', '', ''] 
+    ];
 
-function showBoard(gameBoard) {
-    for (row of gameBoard) {
+    const getBoard = () => board;
+
+    const resetBoard = () => {
+        let board = [
+            ['', '', ''],
+            ['', '', ''],
+            ['', '', ''] 
+        ];
+    }
+
+    // The characteristic of a Factory function is that instead of relying on the new Object()
+    // way of creating an object, it instead returns an { } object with various methods within it
+    return {
+        getBoard,
+        resetBoard
+    }
+})();
+
+/* show the current board in the console
+function showBoard(board) {
+    for (row of board) {
         console.log(row.join(' | '));
         console.log("---------");
     }
 }
+*/
 
-function checkWinner(gameBoard) {
+const player = (name, symbol) => {
+    return {
+        name,
+        symbol
+    };
+}
+
+const gameController = (() => {
+    let player1, player2, currentPlayer;
+
+    const startGame = (player1Name, player2Name) => {
+        player1 = player(player1Name, 'X');
+        player2 = player(player2Name, 'O');
+
+        // Coin-toss to see who goes first
+        if (Math.random() < 0.5) {
+            currentPlayer = player1;
+        } else {
+            currentPlayer = player2;
+        }
+
+
+    }
+})();
+
+
+function checkWinner(board) {
     // Row-checker
-    for (row of gameBoard) { 
+    for (row of board) { 
         if (row[0] !== '' && row[0] === row[1] && row[0] === row[2]) {
             console.log(`${row[0]} wins!`);
             return;
@@ -24,19 +71,19 @@ function checkWinner(gameBoard) {
 
     // Column-checker
     for (let col = 0; col < 3; col++) {       
-        if (gameBoard[0][col] !== '' && gameBoard[0][col] === gameBoard[1][col] && gameBoard[0][col] === gameBoard[2][col]) {
-            console.log(`${gameBoard[0][col]} wins!`);
+        if (board[0][col] !== '' && board[0][col] === board[1][col] && board[0][col] === board[2][col]) {
+            console.log(`${board[0][col]} wins!`);
             return;
         }
     }
 
     // Diagonal-checker
-    if (gameBoard[0][0] !== '' && gameBoard[0][0] === gameBoard[1][1] && gameBoard[0][0] === gameBoard[2][2]) {
-        console.log(`${gameBoard[0][0]} wins!`);
+    if (board[0][0] !== '' && board[0][0] === board[1][1] && board[0][0] === board[2][2]) {
+        console.log(`${board[0][0]} wins!`);
         return;
 
-    } else if (gameBoard[0][2] !== '' && gameBoard[0][2] === gameBoard[1][1] && gameBoard[0][2] === gameBoard[0][2]) {
-        console.log(`${gameBoard[0][2]} wins!`);
+    } else if (board[0][2] !== '' && board[0][2] === board[1][1] && board[0][2] === board[0][2]) {
+        console.log(`${board[0][2]} wins!`);
         return;
         
     }
@@ -46,7 +93,7 @@ function checkWinner(gameBoard) {
     let isTie = true;
 
     // Changes condition to false while game is ongoing
-    for (row of gameBoard) {
+    for (row of board) {
         if (row.includes('')) {
            isTie = false;
            break;
@@ -57,4 +104,10 @@ function checkWinner(gameBoard) {
     if (isTie) {
         console.log('Tie game!')
     }
+}
+
+const boardArea = document.querySelector(".boardArea");
+
+function displayBoard() {
+    boardArea.textContent = gameBoard.getBoard();
 }

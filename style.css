@@ -14,4 +14,13 @@ body {
     width: 500px;
     height: 500px;
     border: 1px solid black;
+    display: grid;
+    grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
+}
+
+.tile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 5rem;
 }

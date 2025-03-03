@@ -52,6 +52,8 @@ const gameController = (() => {
 
     // On call, game creates and sets player1 and player2 
     const startGame = (player1Name, player2Name) => {
+        // Ensures hidden restart button on game start
+        restartBtn.style.visibility = "hidden";
         player1 = player(player1Name, 'X');
         player2 = player(player2Name, 'O');
 
@@ -87,12 +89,14 @@ const gameController = (() => {
             
             if (checkWinner(gameBoard.getBoard())) {
                 console.log(`${currentPlayer.name} wins!`);
+                isGameOver();
                 return;
             }
 
             if (isTie()) {
                 console.log("It's a tie!");
-                return
+                isGameOver();
+                return;
             }
 
             // Switches player after every move with no win conditions met
@@ -129,7 +133,7 @@ const gameController = (() => {
         if (board[0][0] !== '' && board[0][0] === board[1][1] && board[0][0] === board[2][2]) {
             return true;
     
-        } else if (board[0][2] !== '' && board[0][2] === board[1][1] && board[0][2] === board[0][2]) {
+        } else if (board[0][2] !== '' && board[0][2] === board[1][1] && board[0][2] === board[2][0]) {
             return true;
             
         }
@@ -153,6 +157,9 @@ const gameController = (() => {
         return true;
     }
 
+    const isGameOver = () => {
+        restartBtn.style.visibility = "visible";
+    }
 
     return {
         startGame,
@@ -161,6 +168,7 @@ const gameController = (() => {
         isTie,
         getCurrentPlayer,
         checkWinner,
+        isGameOver
     }
 })();
 
@@ -177,5 +185,25 @@ gameTiles.forEach(tile => {
         // data-attribute values are automatically converted to string so we have to parse them to Int with parseInt
         gameController.playerTurn(parseInt(row), parseInt(col));
     })
-})
 
+    tile.addEventListener("mouseover", () => {
+        if (tile.textContent === '') {
+            tile.style.cursor = "pointer";
+        } else {
+            tile.style.cursor = "default";
+        }
+    })
+});
+
+const startBtn = document.querySelector("#startBtn");
+const p1 = document.querySelector("#p1");
+const p2 = document.querySelector("#p2");
+const restartBtn = document.querySelector("#restartBtn");
+
+startBtn.addEventListener("click", () => {
+    gameController.startGame(p1.value, p2.value);
+});
+
+restartBtn.addEventListener("click", () => {
+    gameController.startGame(p1.value, p2.value);
+});

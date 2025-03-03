@@ -5,10 +5,16 @@
 }
 
 body {
+    width: 100vw;
+    height: 100vh;
     display: flex;
     justify-content: center;
-    padding-top: 200px;
+    align-items: center;
 }
+
+/* .titleCard {
+    z-index: -1;
+} */
 
 .boardArea {
     width: 500px;
@@ -23,4 +29,9 @@ body {
     justify-content: center;
     align-items: center;
     font-size: 5rem;
+    border: 1px solid black;
+}
+
+#restartBtn {
+    visibility: hidden;
 }

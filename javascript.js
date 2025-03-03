@@ -158,7 +158,7 @@ const gameController = (() => {
     }
 
     const isGameOver = () => {
-        restartBtn.style.visibility = "visible";
+        restartBtn.style.display = "block";
     }
 
     return {

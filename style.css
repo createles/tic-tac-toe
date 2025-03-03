@@ -12,15 +12,43 @@ body {
     align-items: center;
 }
 
-/* .titleCard {
-    z-index: -1;
-} */
+.titleCard {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 3rem;
+    /* Set a high enough z-index to have it appear above other elements */
+    z-index: 1000;
+    /* First number value is DURATION, second is DELAY */
+    animation: 4.5s fadeOut forwards;
+}
+
+@keyframes fadeOut {
+    0% {
+      opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+.playerInputs {
+    display: none;
+}
 
 .boardArea {
     width: 500px;
     height: 500px;
     border: 1px solid black;
-    display: grid;
+    /* Set display to none initially to hide gameboard */
+    display: none;
     grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
 }
 
@@ -33,5 +61,6 @@ body {
 }
 
 #restartBtn {
-    visibility: hidden;
+    /* initialized as not part of the DOM */
+    display: none;
 }

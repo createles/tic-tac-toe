@@ -9,9 +9,9 @@
 <body>
     <div class="titleCard"><h1>Tic-tac-toe.</h1></div>
     <div class="playerInputs">
-        <label for="playerName1">X</label>
+        <label for="playerName1" id="player1Symbol">X</label>
         <input type="text" name="playerName1" id="p1">
-        <label for="playerName2">O</label>
+        <label for="playerName2" id="player2Symbol">O</label>
         <input type="text" name="playerName2" id="p2">
         <button id="startBtn">Start game</button>
     </div>
@@ -26,6 +26,8 @@
         <div class="tile" data-row="2" data-col="1"></div>
         <div class="tile" data-row="2" data-col="2"></div>
     </div>
+    <div class="playerSide" id="leftSide"></div>
+    <div class="playerSide" id="rightSide"></div>
     <button id="restartBtn">Play again</button>
     <script src="javascript.js"></script>
 </body>

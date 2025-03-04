@@ -53,7 +53,7 @@ const gameController = (() => {
     // On call, game creates and sets player1 and player2 
     const startGame = (player1Name, player2Name) => {
         // Ensures hidden restart button on game start
-        restartBtn.style.visibility = "hidden";
+        restartBtn.style.display = "none";
         player1 = player(player1Name, 'X');
         player2 = player(player2Name, 'O');
 
@@ -68,6 +68,7 @@ const gameController = (() => {
         gameBoard.resetBoard();
         // Clean board
         initializeBoard();
+        highlightPlayer();
     }
 
     // Initializes VISUAL gameBoard by emptying tile textContent
@@ -90,6 +91,13 @@ const gameController = (() => {
             if (checkWinner(gameBoard.getBoard())) {
                 console.log(`${currentPlayer.name} wins!`);
                 isGameOver();
+                if (currentPlayer === player1) {
+                    leftPlayer.textContent = player1.name+" wins!"
+                    leftPlayer.style.fontSize = "2.5rem";
+                } else if (currentPlayer === player2) {
+                    rightPlayer.textContent = player2.name+" wins!"
+                    rightPlayer.style.fontSize = "2.5rem";
+                }
                 return;
             }
 
@@ -101,8 +109,19 @@ const gameController = (() => {
 
             // Switches player after every move with no win conditions met
             currentPlayer = currentPlayer === player1? player2 : player1;
+            highlightPlayer();
         } else {
             console.log("Invalid Move! Try again.");
+        }
+    }
+
+    const highlightPlayer = () => {
+        if (currentPlayer === player1) {
+            leftPlayer.textContent = `${player1.name}'s turn.`;
+            rightPlayer.textContent = player2.name;
+        } else if (currentPlayer === player2) {
+            rightPlayer.textContent = `${player2.name}'s turn.`
+            leftPlayer.textContent = player1.name;
         }
     }
 
@@ -165,6 +184,7 @@ const gameController = (() => {
         startGame,
         initializeBoard,
         playerTurn,
+        highlightPlayer,
         isTie,
         getCurrentPlayer,
         checkWinner,
@@ -199,11 +219,52 @@ const startBtn = document.querySelector("#startBtn");
 const p1 = document.querySelector("#p1");
 const p2 = document.querySelector("#p2");
 const restartBtn = document.querySelector("#restartBtn");
+const leftPlayer = document.querySelector("#leftSide")
+const rightPlayer = document.querySelector("#rightSide");
+const playerSides = document.querySelectorAll(".playerSide");
 
 startBtn.addEventListener("click", () => {
+    leftPlayer.textContent = p1.value;
+    rightPlayer.textContent = p2.value;
     gameController.startGame(p1.value, p2.value);
+    playerInputs.style.display = "none";
+    boardArea.style.display = "grid";
+    playerSides.forEach(player => {
+        player.style.display = "block";
+    });
 });
 
 restartBtn.addEventListener("click", () => {
+    leftPlayer.textContent = p1.value;
+    leftPlayer.style.fontSize = "1rem";
+    rightPlayer.style.fontSize = "1rem";
+    rightPlayer.textContent = p2.value;
     gameController.startGame(p1.value, p2.value);
 });
+
+const playerInputs = document.querySelector(".playerInputs");
+const titleCard = document.querySelector(".titleCard");
+
+titleCard.addEventListener("animationend", () => {
+    titleCard.style.display = "none";
+});
+
+function titleGone(mutationsList) {
+    for (const mutation of mutationsList) {
+        if (mutation.type === "attributes" && mutation.attributeName === "style") {
+            if (titleCard.style.display === "none") {
+                playerInputs.style.display = "grid";
+                // playerInputs.className = "playerInputsShow";
+            }
+        }
+    }
+}
+
+const observeTitle = new MutationObserver(titleGone);
+
+observeTitle.observe(titleCard, {
+    attributes: true,
+    attributeFilter: ["style"],
+});
+
+

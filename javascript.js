@@ -233,11 +233,16 @@ const playerSides = document.querySelectorAll(".playerSide");
 
 startBtn.addEventListener("click", () => {
     if (p1.value !== "" && p2.value !== "") {
+        leftPlayer.style.display = "flex";
+        rightPlayer.style.display = "flex";
+        leftPlayer.style.animation = "0.5s fadeIn forwards";
+        rightPlayer.style.animation = "0.5s fadeIn forwards";
         leftPlayer.textContent = p1.value;
         rightPlayer.textContent = p2.value;
         gameController.startGame(p1.value, p2.value);
         playerInputs.style.display = "none";
         boardArea.style.display = "grid";
+        boardArea.style.animation = "0.5s fadeIn forwards";
         playerSides.forEach(player => {
             player.style.display = "block";
         });

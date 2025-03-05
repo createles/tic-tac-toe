@@ -93,10 +93,10 @@ const gameController = (() => {
                 isGameOver();
                 if (currentPlayer === player1) {
                     leftPlayer.textContent = player1.name+" wins!"
-                    leftPlayer.style.fontSize = "2.5rem";
+                    leftPlayer.style.fontSize = "clamp(2.5rem, 4rem, 5rem)";
                 } else if (currentPlayer === player2) {
                     rightPlayer.textContent = player2.name+" wins!"
-                    rightPlayer.style.fontSize = "2.5rem";
+                    rightPlayer.style.fontSize = "clamp(2.5rem, 4rem, 5rem)";
                 }
                 return;
             }
@@ -104,6 +104,10 @@ const gameController = (() => {
             if (isTie()) {
                 console.log("It's a tie!");
                 isGameOver();
+                leftPlayer.textContent = "tie game!";
+                leftPlayer.style.fontSize = "3rem";
+                rightPlayer.textContent = "tie game!"
+                rightPlayer.style.fontSize = "3rem";
                 return;
             }
 
@@ -118,10 +122,14 @@ const gameController = (() => {
     const highlightPlayer = () => {
         if (currentPlayer === player1) {
             leftPlayer.textContent = `${player1.name}'s turn.`;
+            leftPlayer.style.backgroundColor = "red";
             rightPlayer.textContent = player2.name;
+            rightPlayer.style.backgroundColor = "rgb(123, 174, 250)";
+
         } else if (currentPlayer === player2) {
             rightPlayer.textContent = `${player2.name}'s turn.`
-            leftPlayer.textContent = player1.name;
+            rightPlayer.style.backgroundColor = "blue";            leftPlayer.textContent = player1.name;
+            leftPlayer.style.backgroundColor = "rgb(228, 79, 79)";
         }
     }
 
@@ -224,20 +232,22 @@ const rightPlayer = document.querySelector("#rightSide");
 const playerSides = document.querySelectorAll(".playerSide");
 
 startBtn.addEventListener("click", () => {
-    leftPlayer.textContent = p1.value;
-    rightPlayer.textContent = p2.value;
-    gameController.startGame(p1.value, p2.value);
-    playerInputs.style.display = "none";
-    boardArea.style.display = "grid";
-    playerSides.forEach(player => {
-        player.style.display = "block";
-    });
+    if (p1.value !== "" && p2.value !== "") {
+        leftPlayer.textContent = p1.value;
+        rightPlayer.textContent = p2.value;
+        gameController.startGame(p1.value, p2.value);
+        playerInputs.style.display = "none";
+        boardArea.style.display = "grid";
+        playerSides.forEach(player => {
+            player.style.display = "block";
+        });
+    }
 });
 
 restartBtn.addEventListener("click", () => {
     leftPlayer.textContent = p1.value;
-    leftPlayer.style.fontSize = "1rem";
-    rightPlayer.style.fontSize = "1rem";
+    leftPlayer.style.fontSize = "clamp(1.5rem, 2rem, 2.5rem)";
+    rightPlayer.style.fontSize = "clamp(1.5rem, 2rem, 2.5rem)";
     rightPlayer.textContent = p2.value;
     gameController.startGame(p1.value, p2.value);
 });
@@ -254,7 +264,6 @@ function titleGone(mutationsList) {
         if (mutation.type === "attributes" && mutation.attributeName === "style") {
             if (titleCard.style.display === "none") {
                 playerInputs.style.display = "grid";
-                // playerInputs.className = "playerInputsShow";
             }
         }
     }
